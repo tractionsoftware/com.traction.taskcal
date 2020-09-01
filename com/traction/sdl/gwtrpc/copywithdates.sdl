@@ -56,7 +56,7 @@
     default_event_target=<entry.field name="event_target">__entry.field.value__</entry.field>__join.separator__
     default_catevent_relate_crm_company=<entry.field name="catevent_relate_crm_company">__entry.field.value__</entry.field>__join.separator__
     default_catevent_relate_crm_contact=<entry.field name="catevent_relate_crm_contact">__entry.field.value__</entry.field>__join.separator__
-    default_catevent_target_crm_goal=<entry.field name="catevent_target_crm_goal">__entry.field.value__</entry.field>__join.separator__
+    default_catevent_target_crm_goal=<entry.goals max="1">__entry.tractionid.fqid__</entry.goals>__join.separator__
 		<#copy-extras-entry-tags />__join.separator__
 		<!--- loop.last not is for preventing the ics link from being displayed -->
 		default_content=<items skip="1"><loop.last not>__item.content__</loop.last></items>
