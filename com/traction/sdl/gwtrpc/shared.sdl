@@ -1,0 +1,45 @@
+<!---
+
+      Copyright 1996-2020 Traction Software, Inc.
+
+      Licensed under the Apache License, Version 2.0 (the "License");
+      you may not use this file except in compliance with the License.
+      You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+      Unless required by applicable law or agreed to in writing, software
+      distributed under the License is distributed on an "AS IS" BASIS,
+      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+      See the License for the specific language governing permissions and
+      limitations under the License.
+
+-->
+
+<!--- PLEASE DO NOT DELETE THIS LINE - make copyright depends on it. -->
+
+<sdl.function name="feedentrydetails-inner">
+  <join separator='<variable.value name="sep" default=" &middot; " />'>
+    <variable.boolean name="showthreadposition" default="false">
+      <span class="tp">[__entry.threadposition__]</span>
+    </variable.boolean>
+    <join.separator separator=" " />
+    <single#details-main-inner-author />
+    __join.separator__
+    <single#details-main-inner-permalink />
+    __join.separator__
+    <single#details-main-inner-date />
+    <!--- join.separator separator="<br>" />
+    <#num-attachments />
+    __join.separator__
+    <#num-comments />
+    __join.separator__
+    <#num-tasks />
+    __join.separator__
+    <#num-events />
+    __join.separator__
+    <#similar />
+    __join.separator__
+    <#entry-link class="dtot" />
+  </join -->
+</sdl.function>
