@@ -7,3 +7,13 @@
 .cal-details-dialog .taskbox .ft span.edit, .cal-details-dialog .eventbox .ft span.edit {
   display: none !important;
 }
+
+/* line 28, ../../scss/taskcal/taskcal.scss */
+.copy-with-dates-hidden {
+  display: none;
+}
+
+/* line 33, ../../scss/taskcal/taskcal.scss */
+.icsblock {
+  display: none;
+}

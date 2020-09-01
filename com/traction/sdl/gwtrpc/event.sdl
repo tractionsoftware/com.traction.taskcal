@@ -20,18 +20,12 @@
 
 <sdl.function name="data-table">
 	<switch value="__entry.displaytype__">
-		<case value="event">
-			<##data-table />
-      <copywithdates#copy-normal-event-with-dates />
+		<case value="catevent">
+			<com.traction.catevent.sdl.gwtrpc.event#data-table-section />
+			<copywithdates#copy-catevent-with-dates />
 		</case>
     <case.default>
       <##data-table />
     </case.default>
 	</switch>
-</sdl.function>
-
-<!--- Reservation Equipment plug-in -->
-<sdl.function name="data-table-reservation-eq">
-	<##data-table-reservation-eq />
-	<copywithdates#copy-reservation-with-dates />
 </sdl.function>

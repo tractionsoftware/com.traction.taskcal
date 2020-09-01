@@ -19,40 +19,44 @@
 <!--- PLEASE DO NOT DELETE THIS LINE - make copyright depends on it. -->
 
 <!---
-  Normal Event
+  Cat Event
 -->
-<sdl.function name="copy-normal-event-with-dates">
+<sdl.function name="copy-catevent-with-dates">
 	<entry.erased not>
 		<switch value="<config.view.value name='viewtype' />">
-		  <case value="single"><#copy-normal-event-with-dates-single /></case>
+		  <case value="single"><#copy-catevent-with-dates-single /></case>
 			<!--- In the calendar details dialog, the viewtype is empty. -->
-			<case value=""><#copy-normal-event-with-dates-cal /></case>
+			<case value=""><#copy-catevent-with-dates-cal /></case>
 			<case value="feedentry_"></case>
 			<case.default></case.default>
 		</switch>
 	</entry.erased>
 </sdl.function>
 
-<sdl.function name="copy-normal-event-with-dates-single">
-	<#copy-with-dates-single viewActionName="<#newevent-viewaction-name />" viewActionExtras="<#copy-normal-event-with-dates-extras />" buttonLabel="<config.db.value name='copy_next_date_button_label_event' />" />
+<sdl.function name="copy-catevent-with-dates-single">
+	<#copy-with-dates-single viewActionName="<#newevent-viewaction-name />" viewActionExtras="<#copy-catevent-with-dates-extras />" buttonLabel="<config.db.value name='copy_next_date_button_label_event' />" />
 </sdl.function>
 
-<sdl.function name="copy-normal-event-with-dates-cal">
-	<#copy-with-dates-cal viewActionName="<#newevent-viewaction-name />" viewActionExtras="<#copy-normal-event-with-dates-extras />" buttonLabel="<config.db.value name='copy_next_date_button_label_event' />" />
+<sdl.function name="copy-catevent-with-dates-cal">
+	<#copy-with-dates-cal viewActionName="<#newevent-viewaction-name />" viewActionExtras="<#copy-catevent-with-dates-extras />" buttonLabel="<config.db.value name='copy_next_date_button_label_event' />" />
 </sdl.function>
 
-<sdl.function name="copy-normal-event-with-dates-extras">
+<sdl.function name="copy-catevent-with-dates-extras">
   <join separator="&">
     default_project=__entry.tractionid.project.id__<$join.separator$>
-		default_title=__entry.titletext__<$join.separator$>
+		default_property_catevent_subject=<entry.property.value name="catevent_subject" /><$join.separator$>
     default_property_assigned=<entry.property.value name='assigned' />__join.separator__
     default_property_location=<entry.property.value name='location' />__join.separator__
-    default_property_due=<entry.property.value name='due' />__join.separator__
-    default_property_enddate=<entry.property.value name='enddate' />__join.separator__
+    default_property_due=<#next-date value="<entry.property.value name='due' />" />__join.separator__
+    default_property_enddate=<#next-date value="<entry.property.value name='enddate' />" />__join.separator__
     default_property_allday=<entry.property.value name='allday' />__join.separator__
 		default_property_edit_sections=<entry.property.value name='edit_sections' />__join.separator____join.separator__
 		default_goal=<entry.goal><loop.first>__entry.tractionid.fqid__</loop.first></entry.goal>__join.separator__
 		default_milestone=<entry.milestone><loop.first>__entry.tractionid.fqid__</loop.first></entry.milestone>__join.separator__
+    default_event_target=<entry.field name="event_target">__entry.field.value__</entry.field>__join.separator__
+    default_catevent_relate_crm_company=<entry.field name="catevent_relate_crm_company">__entry.field.value__</entry.field>__join.separator__
+    default_catevent_relate_crm_contact=<entry.field name="catevent_relate_crm_contact">__entry.field.value__</entry.field>__join.separator__
+    default_catevent_target_crm_goal=<entry.field name="catevent_target_crm_goal">__entry.field.value__</entry.field>__join.separator__
 		<#copy-extras-entry-tags />__join.separator__
 		<!--- loop.last not is for preventing the ics link from being displayed -->
 		default_content=<items skip="1"><loop.last not>__item.content__</loop.last></items>
@@ -117,4 +121,68 @@
 	//console.dir(btnX[0]);
 	btnHidden[0].click();
 	btnX[0].click();
+</sdl.function>
+
+<sdl.function name="next-date">
+  <var.set name="rawDate">
+    <#check-exponent>
+      <jeval>${value} + 86400000</jeval>
+    </#check-exponent>
+  </var.set>
+  ${rawDate}
+</sdl.function>
+
+<sdl.function name="check-exponent">
+  <compare.contains "<*yield>" "E">
+    <#remove-exponent />
+  <else>
+    <*yield />
+  </compare.contains>
+</sdl.function>
+
+<sdl.function name="remove-exponent">
+	<var.set name="beforeDecimalPoint">
+		<regex.replace regex="^([0-9]+)\.([0-9]+)E([0-9]+)$" replace="$1">
+			<*yield>
+		</regex.replace>
+	</var.set>
+	<var.set name="afterDecimalPoint">
+		<regex.replace regex="^([0-9]+)\.([0-9]+)E([0-9]+)$" replace="$2">
+			<*yield>
+		</regex.replace>
+	</var.set>
+	<var.set name="exponent">
+		<regex.replace regex="^([0-9]+)\.([0-9]+)E([0-9]+)$" replace="$3">
+			<*yield>
+		</regex.replace>
+	</var.set>
+
+  <var.set name="zeros">
+  	<switch value="<jeval>${exponent} - <string.length>${afterDecimalPoint}</string.length></jeval>">
+      <case value="13">0000000000000</case>
+      <case value="12">000000000000</case>
+      <case value="11">00000000000</case>
+      <case value="10">0000000000</case>
+  		<case value="9">000000000</case>
+  		<case value="8">00000000</case>
+  		<case value="7">0000000</case>
+  		<case value="6">000000</case>
+  		<case value="5">00000</case>
+  		<case value="4">0000</case>
+  		<case value="3">000</case>
+  		<case value="2">00</case>
+  		<case value="1">0</case>
+      <case value="0"></case>
+  		<case.default>
+  			E${exponent}
+  		</case.default>
+  	</switch>
+  </var.set>
+
+	<var.set name="result">
+		${beforeDecimalPoint}${afterDecimalPoint}${zeros}
+	</var.set>
+
+  ${result}
+
 </sdl.function>
