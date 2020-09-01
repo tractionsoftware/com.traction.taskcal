@@ -1,0 +1,25 @@
+@charset "utf-8";
+
+// Hide the "Copy" link on the calendar dialog
+// Because it doesn't support to copy the relationships.
+// https://support.tractionsoftware.com/traction/permalink/JPBO25540
+.cal-details-dialog {
+  .gwt-msgbox-buttons {
+    a.link-button {
+      display: none;
+    }
+  }
+}
+
+// Hide the "Edit" button in the feed entries
+// on the calendar dialog.
+// https://support.tractionsoftware.com/traction/permalink/Proteus16552
+.cal-details-dialog {
+  .taskbox, .eventbox {
+    .ft {
+      span.edit {
+        display: none !important;
+      }
+    }
+  }
+}

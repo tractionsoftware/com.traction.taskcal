@@ -1,0 +1,9 @@
+/* line 8, ../../scss/taskcal/taskcal.scss */
+.cal-details-dialog .gwt-msgbox-buttons a.link-button {
+  display: none;
+}
+
+/* line 20, ../../scss/taskcal/taskcal.scss */
+.cal-details-dialog .taskbox .ft span.edit, .cal-details-dialog .eventbox .ft span.edit {
+  display: none !important;
+}
