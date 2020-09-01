@@ -33,3 +33,24 @@
 .icsblock {
   display: none;
 }
+
+// PM Tasks with Events Table
+// (com.traction.pm.pages)
+#pm-task-table-with-events {
+  width: 100%;
+  border: 1px #ddd solid;
+  border-collapse: collapse;
+  tr.row-event {
+    background-color: #f0f0f0;
+  }
+  th {
+    padding: 2px;
+    color: #fff;
+    background-color: #666;
+    font-weight:bold;
+  }
+  td {
+    padding: 2px;
+    border: 1px #ddd solid;
+  }
+}

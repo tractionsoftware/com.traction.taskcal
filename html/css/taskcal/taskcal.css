@@ -17,3 +17,26 @@
 .icsblock {
   display: none;
 }
+
+/* line 39, ../../scss/taskcal/taskcal.scss */
+#pm-task-table-with-events {
+  width: 100%;
+  border: 1px #ddd solid;
+  border-collapse: collapse;
+}
+/* line 43, ../../scss/taskcal/taskcal.scss */
+#pm-task-table-with-events tr.row-event {
+  background-color: #f0f0f0;
+}
+/* line 46, ../../scss/taskcal/taskcal.scss */
+#pm-task-table-with-events th {
+  padding: 2px;
+  color: #fff;
+  background-color: #666;
+  font-weight: bold;
+}
+/* line 52, ../../scss/taskcal/taskcal.scss */
+#pm-task-table-with-events td {
+  padding: 2px;
+  border: 1px #ddd solid;
+}
