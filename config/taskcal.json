@@ -1,0 +1,14 @@
+{
+  "config/settings/props/journal": {
+    "copy_next_date_button_label_event": {
+      "display_name": "#{@taskcal#copy_next_date_button_label_event_display_name}",
+      "description": "#{@taskcal#copy_next_date_button_label_event_description}",
+      "tip": "#{@taskcal#copy_next_date_button_label_event_tip}",
+      "class": "com.traction.settings.TextInput",
+      "usedefault": "true",
+      "default": "#{@taskcal#copy_next_date_button_label_event_default}",
+      "sdleditor": "com.traction.sdl.admin.settings#textinput_belowlabel",
+      "size": "40"
+    }
+  }
+}

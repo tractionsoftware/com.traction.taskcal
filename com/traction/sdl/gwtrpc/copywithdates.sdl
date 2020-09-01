@@ -1,0 +1,120 @@
+<!---
+
+      Copyright 1996-2020 Traction Software, Inc.
+
+      Licensed under the Apache License, Version 2.0 (the "License");
+      you may not use this file except in compliance with the License.
+      You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+      Unless required by applicable law or agreed to in writing, software
+      distributed under the License is distributed on an "AS IS" BASIS,
+      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+      See the License for the specific language governing permissions and
+      limitations under the License.
+
+-->
+
+<!--- PLEASE DO NOT DELETE THIS LINE - make copyright depends on it. -->
+
+<!---
+  Normal Event
+-->
+<sdl.function name="copy-normal-event-with-dates">
+	<entry.erased not>
+		<switch value="<config.view.value name='viewtype' />">
+		  <case value="single"><#copy-normal-event-with-dates-single /></case>
+			<!--- In the calendar details dialog, the viewtype is empty. -->
+			<case value=""><#copy-normal-event-with-dates-cal /></case>
+			<case value="feedentry_"></case>
+			<case.default></case.default>
+		</switch>
+	</entry.erased>
+</sdl.function>
+
+<sdl.function name="copy-normal-event-with-dates-single">
+	<#copy-with-dates-single viewActionName="<#newevent-viewaction-name />" viewActionExtras="<#copy-normal-event-with-dates-extras />" buttonLabel="<config.db.value name='copy_next_date_button_label_event' />" />
+</sdl.function>
+
+<sdl.function name="copy-normal-event-with-dates-cal">
+	<#copy-with-dates-cal viewActionName="<#newevent-viewaction-name />" viewActionExtras="<#copy-normal-event-with-dates-extras />" buttonLabel="<config.db.value name='copy_next_date_button_label_event' />" />
+</sdl.function>
+
+<sdl.function name="copy-normal-event-with-dates-extras">
+  <join separator="&">
+    default_project=__entry.tractionid.project.id__<$join.separator$>
+		default_title=__entry.titletext__<$join.separator$>
+    default_property_assigned=<entry.property.value name='assigned' />__join.separator__
+    default_property_location=<entry.property.value name='location' />__join.separator__
+    default_property_due=<entry.property.value name='due' />__join.separator__
+    default_property_enddate=<entry.property.value name='enddate' />__join.separator__
+    default_property_allday=<entry.property.value name='allday' />__join.separator__
+		default_property_edit_sections=<entry.property.value name='edit_sections' />__join.separator____join.separator__
+		default_goal=<entry.goal><loop.first>__entry.tractionid.fqid__</loop.first></entry.goal>__join.separator__
+		default_milestone=<entry.milestone><loop.first>__entry.tractionid.fqid__</loop.first></entry.milestone>__join.separator__
+		<#copy-extras-entry-tags />__join.separator__
+		<!--- loop.last not is for preventing the ics link from being displayed -->
+		default_content=<items skip="1"><loop.last not>__item.content__</loop.last></items>
+  </join>
+</sdl.function>
+
+<!---
+  Shared Functions
+-->
+<sdl.function name="newevent-viewaction-name">
+  <plugin name="com.traction.form.catevent" requireenabled="true">
+    NewCatEvent
+  <else>
+    NewEvent
+  </plugin>
+</sdl.function>
+
+<sdl.function name="copy-with-dates-single">
+	<var.whitespace name="buttonLabel" not>
+		<div class="copy-with-dates">
+			<viewaction name="${viewActionName}" extras="${viewActionExtras}">
+				<a <shared#viewaction-href-or-region /> class="button" href="javascript:void(0);">
+					<i></i>${buttonLabel}
+				</a>
+			</viewaction>
+		</div>
+	</var.whitespace>
+</sdl.function>
+
+<sdl.function name="copy-with-dates-cal">
+	<var.whitespace name="buttonLabel" not>
+		<div class="copy-with-dates">
+			<a class="button copy" href="javascript:void(0);" onclick="<#copy-with-dates-onclick />">
+				<i></i>${buttonLabel}
+			</a>
+		</div>
+		<div class="copy-with-dates-hidden">
+			<viewaction name="${viewActionName}" extras="${viewActionExtras}">
+				<a <shared#viewaction-href-or-region /> class="button hidden" href="javascript:void(0);">
+					Hidden (JavaScript simulates clicking on this button)
+				</a>
+			</viewaction>
+		</div>
+	</var.whitespace>
+</sdl.function>
+
+<sdl.function name="copy-extras-entry-tags">
+	<entry.item id="0">
+		<join separator=",">
+			<item.labels alphabetical="true" todofirst="true">
+				<loop.first>default_tags=</loop.first>
+				<regex.replace regex="\s" replace="">__label.labelname.name__</regex.replace><$join.separator$>
+			</item.labels>
+		</join>
+	</entry.item>
+</sdl.function>
+
+<sdl.function name="copy-with-dates-onclick">
+	var btnX = $(this).closest('.cal-details-dialog').find('.x');
+	var btnHidden = $(this).parent().parent().find('.button.hidden');
+	//console.dir(btnHidden[0]);
+	//console.dir(btnX[0]);
+	btnHidden[0].click();
+	btnX[0].click();
+</sdl.function>
